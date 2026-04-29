@@ -1,0 +1,184 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #0f172a;
+  color: white;
+  overflow-x: hidden;
+}
+
+#networkCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.container-box {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 40px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2), 0 0 40px rgba(0,255,255,0.1);
+  animation: fadeIn 1s ease;
+}
+
+label {
+  font-weight: 500;
+}
+
+.form-control {
+  background: #1e293b;
+  border: none;
+  color: white;
+  border-radius: 10px;
+}
+
+.form-control:focus {
+  background: #1e293b;
+  color: white;
+  box-shadow: 0 0 10px cyan;
+}
+
+.btn {
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg,#00eaff,#00ff9d);
+  border: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px cyan;
+}
+
+.btn-secondary {
+  background: #1e293b;
+  border: none;
+}
+
+.brain-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ai-brain {
+  width: 120px;
+  animation: brainPulse 2s infinite alternate;
+}
+
+@keyframes brainPulse {
+  from {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px cyan);
+  }
+  to {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 25px cyan);
+  }
+}
+
+.card3d {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 20px;
+  transition: transform 0.4s, box-shadow 0.4s;
+  transform-style: preserve-3d;
+}
+
+.card3d:hover {
+  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px cyan;
+}
+
+.result-card {
+  background: rgba(255,255,255,0.05);
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  backdrop-filter: blur(20px);
+}
+
+.meter {
+  width: 100%;
+  height: 25px;
+  background: #1e293b;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg,#00eaff,#00ff9d);
+  width: 0;
+  transition: width 2s ease;
+}
+
+table {
+  width: 100%;
+  color: white;
+}
+
+thead {
+  background: #1e293b;
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.dashboard-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .container-box {
+    margin: 30px 15px;
+    padding: 25px;
+  }
+}
+
+.brain-3d-container {
+  width: 100%;
+  height: 250px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#brain3d {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,111 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .result-title {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(90deg, #00eaff, #00ffa6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+  }
+
+  .result-card {
+    max-width: 700px;
+    margin: auto;
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 35px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: fadeResult 0.7s ease;
+  }
+
+  @keyframes fadeResult {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .score-number {
+    font-size: 64px;
+    font-weight: 700;
+    text-align: center;
+    color: #00ffa6;
+  }
+
+  .category-badge {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  .progress {
+    height: 28px;
+    border-radius: 10px;
+    background: #0f172a;
+  }
+
+  .progress-bar {
+    font-weight: 600;
+  }
+
+  .performance-msg {
+    margin-top: 20px;
+    font-size: 17px;
+    text-align: center;
+  }
+</style>
+
+<h2 class="result-title">AI Performance Report</h2>
+
+<div class="result-card">
+  <h5 class="text-center text-secondary mb-2">Predicted Final Marks</h5>
+  <div class="score-number">{{ prediction }}%</div>
+
+  <div class="text-center mt-3">
+    Performance Category:
+    <span class="badge bg-info category-badge">{{ category }}</span>
+  </div>
+
+  <div class="progress mt-4">
+    <div class="progress-bar bg-success" style="width: {{ prediction }}%">{{ prediction }}%</div>
+  </div>
+
+  <div class="performance-msg">
+    {% if category == "Excellent" %}
+    <p class="text-success">Outstanding performance! Keep it up! 🎉</p>
+    {% elif category == "Good" %}
+    <p class="text-primary">Very good! Small improvements can make you excellent.</p>
+    {% elif category == "Average" %}
+    <p class="text-warning">Focus more on study hours and assignments.</p>
+    {% else %}
+    <p class="text-danger">Needs serious improvement. Increase study hours.</p>
+    {% endif %}
+  </div>
+
+  <hr class="mt-4 mb-4">
+
+  <h5 class="text-center">Risk Level</h5>
+  <div class="text-center mt-2">
+    {% if risk == "High Risk" %}
+    <h4 class="text-danger">⚠ High Risk – Immediate Attention Required!</h4>
+    {% elif risk == "Medium Risk" %}
+    <h4 class="text-warning">⚠ Medium Risk – Needs Improvement</h4>
+    {% else %}
+    <h4 class="text-success">✅ Safe – Good Performance</h4>
+    {% endif %}
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="/" class="btn btn-secondary">Predict Again</a>
+  </div>
+</div>
+{% endblock %}

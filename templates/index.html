@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+.hero-section{
+text-align:center;
+margin-bottom:40px;
+position:relative;
+}
+
+#brain3d{
+display:block;
+margin:auto;
+margin-bottom:25px;
+}
+
+.hero-title{
+font-size:40px;
+font-weight:700;
+
+background:linear-gradient(90deg,#00eaff,#00ffa6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+margin-bottom:10px;
+}
+
+.hero-sub{
+color:#94a3b8;
+font-size:18px;
+}
+
+.predict-card{
+
+max-width:700px;
+margin:auto;
+
+background:#020617;
+
+border:1px solid rgba(255,255,255,0.06);
+
+border-radius:12px;
+
+padding:35px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.form-control{
+
+background:#0f172a;
+border:1px solid rgba(255,255,255,0.08);
+color:white;
+
+}
+
+.form-control:focus{
+
+background:#0f172a;
+color:white;
+
+border-color:#00eaff;
+box-shadow:none;
+
+}
+.predict-btn{
+
+background:linear-gradient(90deg,#00eaff,#00ffa6);
+border:none;
+
+padding:12px;
+font-weight:600;
+
+color:black;
+
+transition:0.3s;
+
+}
+
+.predict-btn:hover{
+
+transform:translateY(-2px);
+box-shadow:0 8px 20px rgba(0,255,200,0.25);
+
+}
+.input-grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+
+}
+
+@media(max-width:768px){
+
+.input-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+
+<div class="hero-section">
+
+<!-- AI BRAIN -->
+<canvas id="brain3d"></canvas>
+
+<h1 class="hero-title">
+AI Student Performance Predictor
+</h1>
+
+<p class="hero-sub">
+Use artificial intelligence to estimate your final academic performance
+</p>
+
+</div>
+
+
+<div class="predict-card">
+
+<form method="POST" action="/predict">
+
+<div class="input-grid">
+
+<div>
+<label class="form-label">Study Hours (per day)</label>
+<input type="number" step="0.1" name="study_hours" class="form-control" required>
+</div>
+
+<div>
+<label class="form-label">Attendance (%)</label>
+<input type="number" step="0.1" name="attendance" class="form-control" required>
+</div>
+
+<div>
+<label class="form-label">Previous Marks (%)</label>
+<input type="number" step="0.1" name="previous_marks" class="form-control" required>
+</div>
+
+<div>
+<label class="form-label">Assignments Completed</label>
+<input type="number" step="1" name="assignments" class="form-control" required>
+</div>
+
+<div>
+<label class="form-label">Sleep Hours</label>
+<input type="number" step="0.1" name="sleep_hours" class="form-control" required>
+</div>
+
+</div>
+
+<button class="btn predict-btn w-100 mt-4">
+Predict Performance
+</button>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "admin.html" %}
+
+{% block admin_content %}
+<style>
+  /* PAGE TITLE */
+  .page-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    background: linear-gradient(90deg, #ff6b6b, #ff2e63);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* TABLE CARD */
+  .table-card {
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 25px;
+    animation: fadeTable 0.6s ease;
+  }
+
+  @keyframes fadeTable {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* table style */
+  .table {
+    color: #5e7697;
+  }
+
+  .table thead {
+    background: #1e293b;
+  }
+
+  .table tbody tr:hover {
+    background: rgba(255,255,255,0.05);
+  }
+</style>
+
+<h2 class="page-title">Student Predictions</h2>
+
+<div class="table-card">
+  {% if predictions %}
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Study Hours</th>
+          <th>Attendance</th>
+          <th>Previous Marks</th>
+          <th>Assignments</th>
+          <th>Sleep Hours</th>
+          <th>Predicted Marks</th>
+          <th>Risk Level</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in predictions %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ row["name"] if row["name"] else "N/A" }}</td>
+          <td>{{ row["email"] if row["email"] else "N/A" }}</td>
+          <td>{{ row["study_hours"] }}</td>
+          <td>{{ row["attendance"] }}</td>
+          <td>{{ row["previous_marks"] }}</td>
+          <td>{{ row["assignments"] }}</td>
+          <td>{{ row["sleep_hours"] }}</td>
+          <td><strong>{{ row["predicted_marks"] | round(2) }}</strong></td>
+          <td>
+            {% if row["risk_level"] == "High Risk" %}
+            <span class="badge bg-danger">High Risk</span>
+            {% elif row["risk_level"] == "Medium Risk" %}
+            <span class="badge bg-warning text-dark">Medium Risk</span>
+            {% else %}
+            <span class="badge bg-success">Low Risk</span>
+            {% endif %}
+          </td>
+          <td>{{ row["created_at"] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info">No predictions available yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

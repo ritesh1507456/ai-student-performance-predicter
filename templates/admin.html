@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.admin-nav{
+background:#020617;
+border:1px solid rgba(255,255,255,0.05);
+border-radius:8px;
+padding:10px 15px;
+margin-bottom:25px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.admin-nav a{
+text-decoration:none;
+padding:8px 14px;
+border-radius:6px;
+color:#cbd5e1;
+font-weight:500;
+transition:0.3s;
+}
+
+.admin-nav a:hover{
+background:#111827;
+color:#f87171;
+}
+
+.admin-nav a.active{
+background:#dc2626;
+color:white;
+}
+
+.admin-content{
+animation:fadeAdmin 0.5s ease;
+}
+@keyframes fadeAdmin{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+</style>
+
+<!-- ADMIN NAVIGATION BAR -->
+<div class="admin-nav">
+
+<a href="/admin_dashboard">📊 Dashboard</a>
+<a href="/admin_predictions">📚 Predictions</a>
+<a href="/admin_risk">⚠ Risk Students</a>
+<a href="/dashboard">🤖 Model Analytics</a>
+<a href="/logout">🚪 Logout</a>
+</div>
+
+<div class="admin-content">
+{% block admin_content %}
+{% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "admin.html" %}
+{% block admin_content %}
+<style>
+
+.risk-title{
+font-size:30px;
+font-weight:700;
+margin-bottom:25px;
+background:linear-gradient(90deg,#ff6b6b,#ff2e63);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.risk-card{
+background:#020617;
+border:1px solid rgba(255,255,255,0.06);
+border-radius:12px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+.table{
+color:white;
+}
+.table thead{
+background:#111827;
+}
+
+.table tbody tr{
+transition:0.3s;
+}
+
+.table tbody tr:hover{
+background:#111827;
+}
+</style>
+
+
+<h2 class="risk-title">
+⚠ High Risk Students Monitoring
+</h2>
+<div class="risk-card">
+
+{% if risk_students %}
+
+<div class="table-responsive">
+
+<table class="table table-bordered align-middle">
+
+<thead>
+<tr>
+<th>S No.</th>
+<th>Student Name</th>
+<th>Email</th>
+<th>Predicted Marks</th>
+<th>Risk Level</th>
+<th>Flagged At</th>
+</tr>
+</thead>
+<tbody>
+
+{% for student in risk_students %}
+
+<tr class="table-danger">
+
+<td>{{ loop.index }}</td>
+
+<td>
+{{ student["name"] if student["name"] else "N/A" }}
+</td>
+
+<td>
+{{ student["email"] if student["email"] else "N/A" }}
+</td>
+
+<td>
+
+<strong>
+{{ student["predicted_marks"] | round(2) }}
+</strong>
+</td>
+<td>
+
+<span class="badge bg-danger">
+{{ student["risk_level"] }}
+</span>
+</td>
+
+<td>
+{{ student["flagged_at"] }}
+</td>
+
+</tr>
+
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+
+{% else %}
+<div class="alert alert-success text-center">
+🎉 No High Risk Students Currently!
+</div>
+
+{% endif %}
+</div>
+{% endblock %}

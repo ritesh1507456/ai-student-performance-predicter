@@ -1,0 +1,111 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .dashboard-title {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #00eaff, #00ffa6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: 0.3s;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  }
+
+  .stat-card h4 {
+    color: #94a3b8;
+  }
+
+  .stat-card h2 {
+    font-weight: 700;
+    margin-top: 10px;
+  }
+
+  .chart-card {
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 20px;
+  }
+</style>
+
+<h2 class="dashboard-title">AI Model Analytics Dashboard</h2>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <h4>Best Performing Model</h4>
+    <h2>{{ best_model if best_model else "N/A" }}</h2>
+  </div>
+  <div class="stat-card">
+    <h4>Best Accuracy</h4>
+    <h2>{% if best_score %}{{ (best_score * 100) | round(2) }}%{% else %}N/A{% endif %}</h2>
+  </div>
+</div>
+
+<div class="chart-card">
+  <h4 class="mb-4">Model Accuracy Comparison</h4>
+  <canvas id="modelChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let scores = {{ scores | tojson }};
+  let labels = Object.keys(scores);
+  let values = Object.values(scores);
+
+  if (labels.length > 0) {
+    let ctx = document.getElementById('modelChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Model Accuracy',
+          data: values,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: { color: "white" }
+          }
+        },
+        scales: {
+          y: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.1)" }
+          },
+          x: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.05)" }
+          }
+        }
+      }
+    });
+  }
+</script>
+{% endblock %}

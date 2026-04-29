@@ -1,0 +1,165 @@
+{% extends "admin.html" %}
+
+{% block admin_content %}
+<style>
+  /* DASHBOARD TITLE */
+  .admin-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    background: linear-gradient(90deg, #ff6b6b, #ff2e63);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* STATS GRID */
+  .admin-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  /* CARD */
+  .admin-card {
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: 0.3s;
+  }
+
+  .admin-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .admin-card h5 {
+    color: #94a3b8;
+  }
+
+  .admin-card h2 {
+    margin-top: 10px;
+    font-weight: 700;
+  }
+
+  /* CHART CARD */
+  .chart-card {
+    background: #020617;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 20px;
+  }
+</style>
+
+<div class="text-center mb-4">
+<canvas id="brain3d"></canvas>
+<h2>Admin Analytics Dashboard</h2>
+</div>
+<!-- STATS -->
+<div class="admin-stats">
+  <div class="admin-card">
+    <h5>Total Students</h5>
+    <h2>{{ total_students }}</h2>
+  </div>
+  <div class="admin-card">
+    <h5>High Risk Students</h5>
+    <h2 class="text-danger">{{ risk_count }}</h2>
+  </div>
+</div>
+
+<!-- MODEL CHART -->
+<div class="chart-card">
+  <h4 class="mb-4">AI Model Performance</h4>
+  <canvas id="modelChart"></canvas>
+</div>
+
+<!-- FEATURE IMPORTANCE -->
+{% if feature_data %}
+<div class="chart-card">
+  <h4 class="mb-4">Feature Importance</h4>
+  <canvas id="featureChart"></canvas>
+</div>
+{% endif %}
+
+<!-- CHART JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let modelScores = {{ model_scores | tojson }};
+  let modelLabels = Object.keys(modelScores);
+  let modelValues = Object.values(modelScores);
+
+  if (modelLabels.length > 0) {
+    let ctx = document.getElementById("modelChart").getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: modelLabels,
+        datasets: [{
+          label: "Model Accuracy",
+          data: modelValues,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: { color: "white" }
+          }
+        },
+        scales: {
+          y: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.1)" }
+          },
+          x: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.05)" }
+          }
+        }
+      }
+    });
+  }
+
+  /* FEATURE IMPORTANCE */
+  let featureData = {{ feature_data | tojson }};
+  let featureLabels = Object.keys(featureData);
+  let featureValues = Object.values(featureData);
+
+  if (featureLabels.length > 0) {
+    let ctx2 = document.getElementById("featureChart").getContext("2d");
+    new Chart(ctx2, {
+      type: "bar",
+      data: {
+        labels: featureLabels,
+        datasets: [{
+          label: "Feature Importance",
+          data: featureValues
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: { color: "white" }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.1)" }
+          },
+          y: {
+            ticks: { color: "white" },
+            grid: { color: "rgba(255,255,255,0.05)" }
+          }
+        }
+      }
+    });
+  }
+</script>
+{% endblock %}
